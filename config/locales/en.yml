@@ -29,3 +29,189 @@
 
 en:
   hello: "Hello world"
+  
+  # General error messages
+  errors:
+    template:
+      header:
+        one: "1 error prohibited this %{model} from being saved"
+        other: "%{count} errors prohibited this %{model} from being saved"
+      body: "Please correct the following errors:"
+    messages:
+      accepted: "must be accepted"
+      blank: "can't be blank"
+      confirmation: "doesn't match confirmation"
+      empty: "can't be empty"
+      equal_to: "must be equal to %{count}"
+      even: "must be even"
+      exclusion: "is reserved"
+      greater_than: "must be greater than %{count}"
+      greater_than_or_equal_to: "must be greater than or equal to %{count}"
+      inclusion: "is not included in the list"
+      invalid: "is invalid"
+      less_than: "must be less than %{count}"
+      less_than_or_equal_to: "must be less than or equal to %{count}"
+      model_invalid: "Validation failed: %{errors}"
+      not_a_number: "is not a number"
+      not_an_integer: "must be an integer"
+      odd: "must be odd"
+      other_than: "must be other than %{count}"
+      present: "must be blank"
+      required: "must be present"
+      taken: "has already been taken"
+      too_long: "is too long (maximum is %{count} characters)"
+      too_short: "is too short (minimum is %{count} characters)"
+      wrong_length: "is the wrong length (should be %{count} characters)"
+  
+  # Models
+  activerecord:
+    models:
+      user: "User"
+      users: "Users"
+      agente: "Agent"
+      agentes: "Agents"
+      conversacion: "Conversation"
+      conversaciones: "Conversations"
+      mensaje: "Message"
+      mensajes: "Messages"
+      session: "Session"
+      sessions: "Sessions"
+    
+    attributes:
+      user:
+        email_address: "Email address"
+        password: "Password"
+        password_confirmation: "Password confirmation"
+      agente:
+        name: "Name"
+        status: "Status"
+        channels: "Channels"
+        user: "User"
+      conversacion:
+        agente: "Agent"
+        duracion: "Duration"
+        resumen: "Summary"
+      mensaje:
+        contenido: "Content"
+        conversacion: "Conversation"
+    
+    errors:
+      models:
+        user:
+          attributes:
+            email_address:
+              blank: "can't be blank"
+              invalid: "must be a valid email"
+              taken: "has already been taken"
+            password:
+              blank: "can't be blank"
+              too_short: "is too short (minimum %{count} characters)"
+        agente:
+          attributes:
+            name:
+              blank: "can't be blank"
+            status:
+              inclusion: "must be a valid status"
+        conversacion:
+          attributes:
+            duracion:
+              not_a_number: "must be a number"
+              greater_than: "must be greater than 0"
+            resumen:
+              too_long: "is too long (maximum %{count} characters)"
+        mensaje:
+          attributes:
+            contenido:
+              blank: "can't be blank"
+              too_long: "is too long (maximum %{count} characters)"
+  
+  # Controllers
+  users:
+    index:
+      title: "Users"
+    new:
+      title: "New User"
+    edit:
+      title: "Edit User"
+    show:
+      title: "User Details"
+  
+  agentes:
+    index:
+      title: "Agents"
+    new:
+      title: "New Agent"
+    edit:
+      title: "Edit Agent"
+    show:
+      title: "Agent Details"
+  
+  conversacions:
+    index:
+      title: "Conversations"
+    new:
+      title: "New Conversation"
+    edit:
+      title: "Edit Conversation"
+    show:
+      title: "Conversation Details"
+  
+  mensajes:
+    index:
+      title: "Messages"
+    new:
+      title: "New Message"
+    edit:
+      title: "Edit Message"
+    show:
+      title: "Message Details"
+  
+  # Actions
+  actions:
+    create: "Create"
+    update: "Update"
+    destroy: "Destroy"
+    edit: "Edit"
+    show: "Show"
+    back: "Back"
+    cancel: "Cancel"
+    save: "Save"
+    delete: "Delete"
+    confirm: "Confirm"
+  
+  # Status
+  status:
+    inactive: "Inactive"
+    active: "Active"
+    busy: "Busy"
+  
+  # Success messages
+  notice:
+    created: "%{model} was successfully created"
+    updated: "%{model} was successfully updated"
+    destroyed: "%{model} was successfully destroyed"
+  
+  # Error messages
+  alert:
+    not_authorized: "You are not authorized to perform this action"
+    not_found: "The requested resource was not found"
+    invalid_credentials: "Invalid email or password"
+  
+  # Authentication
+  sessions:
+    new:
+      title: "Sign In"
+      email: "Email"
+      password: "Password"
+      submit: "Sign In"
+    create:
+      success: "Successfully signed in"
+      failure: "Invalid email or password"
+    destroy:
+      success: "Successfully signed out"
+  
+  # Custom validations
+  custom_validations:
+    email_format: "must be a valid email"
+    password_strength: "must be at least 8 characters"
+    unique_email: "has already been taken"

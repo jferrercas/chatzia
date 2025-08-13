@@ -1,6 +1,6 @@
 class Agente < ApplicationRecord
   belongs_to :user
-  has_many :conversaciones, dependent: :destroy
+  has_many :conversaciones, class_name: 'Conversacion', dependent: :destroy
   validates :name, presence: true
   validates :status, inclusion: { in: [0, 1, 2] }, allow_nil: true # 0: inactivo, 1: activo, 2: ocupado
   

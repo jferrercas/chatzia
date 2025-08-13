@@ -1,0 +1,188 @@
+es:
+  hello: "Hola mundo"
+  
+  # Mensajes de error generales
+  errors:
+    template:
+      header:
+        one: "1 error impidió que se guardara este %{model}"
+        other: "%{count} errores impidieron que se guardara este %{model}"
+      body: "Por favor, corrija los siguientes errores:"
+    messages:
+      accepted: "debe ser aceptado"
+      blank: "no puede estar en blanco"
+      confirmation: "no coincide con la confirmación"
+      empty: "no puede estar vacío"
+      equal_to: "debe ser igual a %{count}"
+      even: "debe ser par"
+      exclusion: "está reservado"
+      greater_than: "debe ser mayor que %{count}"
+      greater_than_or_equal_to: "debe ser mayor o igual a %{count}"
+      inclusion: "no está incluido en la lista"
+      invalid: "no es válido"
+      less_than: "debe ser menor que %{count}"
+      less_than_or_equal_to: "debe ser menor o igual a %{count}"
+      model_invalid: "Error de validación: %{errors}"
+      not_a_number: "no es un número"
+      not_an_integer: "debe ser un entero"
+      odd: "debe ser impar"
+      other_than: "debe ser diferente de %{count}"
+      present: "debe estar en blanco"
+      required: "debe estar presente"
+      taken: "ya está en uso"
+      too_long: "es demasiado largo (máximo %{count} caracteres)"
+      too_short: "es demasiado corto (mínimo %{count} caracteres)"
+      wrong_length: "tiene una longitud incorrecta (debe ser %{count} caracteres)"
+  
+  # Modelos
+  activerecord:
+    models:
+      user: "Usuario"
+      users: "Usuarios"
+      agente: "Agente"
+      agentes: "Agentes"
+      conversacion: "Conversación"
+      conversaciones: "Conversaciones"
+      mensaje: "Mensaje"
+      mensajes: "Mensajes"
+      session: "Sesión"
+      sessions: "Sesiones"
+    
+    attributes:
+      user:
+        email_address: "Dirección de email"
+        password: "Contraseña"
+        password_confirmation: "Confirmación de contraseña"
+      agente:
+        name: "Nombre"
+        status: "Estado"
+        channels: "Canales"
+        user: "Usuario"
+      conversacion:
+        agente: "Agente"
+        duracion: "Duración"
+        resumen: "Resumen"
+      mensaje:
+        contenido: "Contenido"
+        conversacion: "Conversación"
+    
+    errors:
+      models:
+        user:
+          attributes:
+            email_address:
+              blank: "no puede estar en blanco"
+              invalid: "debe ser un email válido"
+              taken: "ya está en uso"
+            password:
+              blank: "no puede estar en blanco"
+              too_short: "es demasiado corta (mínimo %{count} caracteres)"
+        agente:
+          attributes:
+            name:
+              blank: "no puede estar en blanco"
+            status:
+              inclusion: "debe ser un estado válido"
+        conversacion:
+          attributes:
+            duracion:
+              not_a_number: "debe ser un número"
+              greater_than: "debe ser mayor que 0"
+            resumen:
+              too_long: "es demasiado largo (máximo %{count} caracteres)"
+        mensaje:
+          attributes:
+            contenido:
+              blank: "no puede estar en blanco"
+              too_long: "es demasiado largo (máximo %{count} caracteres)"
+  
+  # Controladores
+  users:
+    index:
+      title: "Usuarios"
+    new:
+      title: "Nuevo Usuario"
+    edit:
+      title: "Editar Usuario"
+    show:
+      title: "Detalles del Usuario"
+  
+  agentes:
+    index:
+      title: "Agentes"
+    new:
+      title: "Nuevo Agente"
+    edit:
+      title: "Editar Agente"
+    show:
+      title: "Detalles del Agente"
+  
+  conversacions:
+    index:
+      title: "Conversaciones"
+    new:
+      title: "Nueva Conversación"
+    edit:
+      title: "Editar Conversación"
+    show:
+      title: "Detalles de la Conversación"
+  
+  mensajes:
+    index:
+      title: "Mensajes"
+    new:
+      title: "Nuevo Mensaje"
+    edit:
+      title: "Editar Mensaje"
+    show:
+      title: "Detalles del Mensaje"
+  
+  # Acciones
+  actions:
+    create: "Crear"
+    update: "Actualizar"
+    destroy: "Eliminar"
+    edit: "Editar"
+    show: "Ver"
+    back: "Volver"
+    cancel: "Cancelar"
+    save: "Guardar"
+    delete: "Eliminar"
+    confirm: "Confirmar"
+  
+  # Estados
+  status:
+    inactive: "Inactivo"
+    active: "Activo"
+    busy: "Ocupado"
+  
+  # Mensajes de éxito
+  notice:
+    created: "%{model} fue creado exitosamente"
+    updated: "%{model} fue actualizado exitosamente"
+    destroyed: "%{model} fue eliminado exitosamente"
+  
+  # Mensajes de error
+  alert:
+    not_authorized: "No tienes autorización para realizar esta acción"
+    not_found: "El recurso solicitado no fue encontrado"
+    invalid_credentials: "Email o contraseña incorrectos"
+  
+  # Autenticación
+  sessions:
+    new:
+      title: "Iniciar Sesión"
+      email: "Email"
+      password: "Contraseña"
+      submit: "Iniciar Sesión"
+    create:
+      success: "Sesión iniciada exitosamente"
+      failure: "Email o contraseña incorrectos"
+    destroy:
+      success: "Sesión cerrada exitosamente"
+  
+  # Validaciones personalizadas
+  custom_validations:
+    email_format: "debe ser un email válido"
+    password_strength: "debe tener al menos 8 caracteres"
+    unique_email: "ya está en uso"

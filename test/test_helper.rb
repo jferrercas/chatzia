@@ -13,3 +13,19 @@ module ActiveSupport
     # Add more helper methods to be used by all tests here...
   end
 end
+
+module AuthenticationTestHelper
+  def sign_in_as(user)
+    # Crear una sesión directamente para el usuario
+    session = user.sessions.create!(
+      user_agent: "Rails Testing",
+      ip_address: "127.0.0.1"
+    )
+    
+    # Establecer la cookie de sesión
+    cookies.signed[:session_id] = session.id
+    
+    # Establecer la sesión actual
+    Current.session = session
+  end
+end
