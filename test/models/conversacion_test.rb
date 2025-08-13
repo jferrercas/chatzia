@@ -22,11 +22,11 @@ class ConversacionTest < ActiveSupport::TestCase
   test "duracion debe ser numérica y mayor que 0" do
     @conversacion.duracion = 30
     assert @conversacion.valid?
-    
+
     @conversacion.duracion = 0
     assert_not @conversacion.valid?
     assert_includes @conversacion.errors[:duracion], "debe ser mayor que 0"
-    
+
     @conversacion.duracion = -5
     assert_not @conversacion.valid?
     assert_includes @conversacion.errors[:duracion], "debe ser mayor que 0"
@@ -40,7 +40,7 @@ class ConversacionTest < ActiveSupport::TestCase
   test "resumen debe tener longitud máxima de 1000 caracteres" do
     @conversacion.resumen = "a" * 1000
     assert @conversacion.valid?
-    
+
     @conversacion.resumen = "a" * 1001
     assert_not @conversacion.valid?
     assert_includes @conversacion.errors[:resumen], "es demasiado largo (máximo 1000 caracteres)"
@@ -59,7 +59,7 @@ class ConversacionTest < ActiveSupport::TestCase
   test "scope recientes debe ordenar por created_at descendente" do
     conversacion_antigua = @agente.conversaciones.create!(created_at: 2.days.ago)
     conversacion_reciente = @agente.conversaciones.create!(created_at: 1.day.ago)
-    
+
     conversaciones_recientes = Conversacion.recientes
     assert_equal conversacion_reciente, conversaciones_recientes.first
     assert_equal conversacion_antigua, conversaciones_recientes.last
@@ -68,7 +68,7 @@ class ConversacionTest < ActiveSupport::TestCase
   test "scope por_agente debe devolver conversaciones del agente específico" do
     otro_agente = agentes(:two)
     conversacion_otro_agente = otro_agente.conversaciones.create!
-    
+
     conversaciones_del_agente = Conversacion.por_agente(@agente.id)
     assert_includes conversaciones_del_agente, @conversacion
     assert_not_includes conversaciones_del_agente, conversacion_otro_agente
@@ -91,7 +91,7 @@ class ConversacionTest < ActiveSupport::TestCase
 
   test "debe destruir mensajes al eliminar conversación" do
     mensaje_count = @conversacion.mensajes.count
-    assert_difference 'Mensaje.count', -mensaje_count do
+    assert_difference "Mensaje.count", -mensaje_count do
       @conversacion.destroy
     end
   end

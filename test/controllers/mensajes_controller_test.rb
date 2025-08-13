@@ -56,7 +56,7 @@ class MensajesControllerTest < ActionDispatch::IntegrationTest
     otro_agente = otro_user.agentes.create!(name: "Agente Otro Usuario")
     otra_conversacion = otro_agente.conversaciones.create!
     sign_in_as(@user)
-    
+
     assert_no_difference("Mensaje.count") do
       post mensajes_url, params: { mensaje: { contenido: "Mensaje", conversacion_id: otra_conversacion.id } }
     end
@@ -139,7 +139,7 @@ class MensajesControllerTest < ActionDispatch::IntegrationTest
     otra_conversacion = otro_agente.conversaciones.create!
     otro_mensaje = otra_conversacion.mensajes.create!(contenido: "Mensaje de otro usuario")
     sign_in_as(@user)
-    
+
     get mensaje_url(otro_mensaje)
     assert_redirected_to mensajes_path
     assert_equal "No tienes permisos para acceder a este mensaje.", flash[:alert]
@@ -151,7 +151,7 @@ class MensajesControllerTest < ActionDispatch::IntegrationTest
     otra_conversacion = otro_agente.conversaciones.create!
     otro_mensaje = otra_conversacion.mensajes.create!(contenido: "Mensaje de otro usuario")
     sign_in_as(@user)
-    
+
     get edit_mensaje_url(otro_mensaje)
     assert_redirected_to mensajes_path
     assert_equal "No tienes permisos para acceder a este mensaje.", flash[:alert]
@@ -163,7 +163,7 @@ class MensajesControllerTest < ActionDispatch::IntegrationTest
     otra_conversacion = otro_agente.conversaciones.create!
     otro_mensaje = otra_conversacion.mensajes.create!(contenido: "Mensaje de otro usuario")
     sign_in_as(@user)
-    
+
     patch mensaje_url(otro_mensaje), params: { mensaje: { contenido: "Contenido actualizado" } }
     assert_redirected_to mensajes_path
     assert_equal "No tienes permisos para acceder a este mensaje.", flash[:alert]
@@ -175,7 +175,7 @@ class MensajesControllerTest < ActionDispatch::IntegrationTest
     otra_conversacion = otro_agente.conversaciones.create!
     otro_mensaje = otra_conversacion.mensajes.create!(contenido: "Mensaje de otro usuario")
     sign_in_as(@user)
-    
+
     assert_no_difference("Mensaje.count") do
       delete mensaje_url(otro_mensaje)
     end
@@ -295,7 +295,7 @@ class MensajesControllerTest < ActionDispatch::IntegrationTest
     otra_conversacion = otro_agente.conversaciones.create!
     otro_mensaje = otra_conversacion.mensajes.create!(contenido: "Mensaje de otro usuario")
     sign_in_as(@user)
-    
+
     get mensajes_url
     assert_response :success
     assert_includes @response.body, @mensaje.id.to_s

@@ -23,7 +23,7 @@ class ConversacionsController < ApplicationController
   # POST /conversacions or /conversacions.json
   def create
     @conversacion = Conversacion.new(conversacion_params)
-    
+
     # Verificar que el agente pertenece al usuario actual
     unless Current.user.agentes.exists?(@conversacion.agente_id)
       redirect_to conversacions_path, alert: "No puedes crear conversaciones para agentes que no te pertenecen."
@@ -45,7 +45,7 @@ class ConversacionsController < ApplicationController
   def update
     respond_to do |format|
       if @conversacion.update(conversacion_params)
-        format.html { redirect_to @conversacion, notice: "Conversacion was successfully updated.", status: :see_other }
+        format.html { redirect_to @conversacion, notice: "Conversación actualizada exitosamente.", status: :see_other }
         format.json { render :show, status: :ok, location: @conversacion }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -59,7 +59,7 @@ class ConversacionsController < ApplicationController
     @conversacion.destroy!
 
     respond_to do |format|
-      format.html { redirect_to conversacions_path, notice: "Conversacion was successfully destroyed.", status: :see_other }
+      format.html { redirect_to conversacions_path, notice: "Conversación eliminada exitosamente.", status: :see_other }
       format.json { head :no_content }
     end
   end
@@ -67,14 +67,14 @@ class ConversacionsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_conversacion
-      @conversacion = Conversacion.find(params.expect(:id))
+      @conversacion = Conversacion.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
     def conversacion_params
-      params.expect(conversacion: [ :agente_id, :duracion, :resumen ])
+      params.require(:conversacion).permit(:agente_id, :duracion, :resumen)
     end
-    
+
     def authorize_conversacion
       unless @conversacion.agente.user_id == Current.user.id
         redirect_to conversacions_path, alert: "No tienes permisos para acceder a esta conversación."

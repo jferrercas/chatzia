@@ -1,10 +1,19 @@
-<p style="color: green"><%= notice %></p>
+<p><%= link_to "Back", agentes_path %></p>
 
-<%= render @agente %>
+<section class="agente">
 
-<div>
-  <%= link_to "Edit this agente", edit_agente_path(@agente) %> |
-  <%= link_to "Back to agentes", agentes_path %>
 
-  <%= button_to "Destroy this agente", @agente, method: :delete %>
-</div>
+  <section class="agente-info">
+    <% cache @agente do %>
+      <h1><%= @agente.name %></h1>
+
+    <% end %>
+
+    <%= render @agente %>
+
+    <% if authenticated? %>
+      <%= link_to "Edit", edit_agente_path(@agente) %>
+      <%= button_to "Delete", @agente, method: :delete, data: { turbo_confirm: "Are you sure?" } %>
+    <% end %>
+  </section>
+</section>

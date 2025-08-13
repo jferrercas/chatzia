@@ -122,7 +122,7 @@ class AgentesControllerTest < ActionDispatch::IntegrationTest
     otro_user = users(:two)
     otro_agente = otro_user.agentes.create!(name: "Agente Otro Usuario")
     sign_in_as(@user)
-    
+
     get agente_url(otro_agente)
     assert_redirected_to agentes_path
     assert_equal "No tienes permisos para acceder a este agente.", flash[:alert]
@@ -132,7 +132,7 @@ class AgentesControllerTest < ActionDispatch::IntegrationTest
     otro_user = users(:two)
     otro_agente = otro_user.agentes.create!(name: "Agente Otro Usuario")
     sign_in_as(@user)
-    
+
     get edit_agente_url(otro_agente)
     assert_redirected_to agentes_path
     assert_equal "No tienes permisos para acceder a este agente.", flash[:alert]
@@ -142,7 +142,7 @@ class AgentesControllerTest < ActionDispatch::IntegrationTest
     otro_user = users(:two)
     otro_agente = otro_user.agentes.create!(name: "Agente Otro Usuario")
     sign_in_as(@user)
-    
+
     patch agente_url(otro_agente), params: { agente: { name: "Agente Actualizado" } }
     assert_redirected_to agentes_path
     assert_equal "No tienes permisos para acceder a este agente.", flash[:alert]
@@ -152,7 +152,7 @@ class AgentesControllerTest < ActionDispatch::IntegrationTest
     otro_user = users(:two)
     otro_agente = otro_user.agentes.create!(name: "Agente Otro Usuario")
     sign_in_as(@user)
-    
+
     assert_no_difference("Agente.count") do
       delete agente_url(otro_agente)
     end
@@ -239,7 +239,7 @@ class AgentesControllerTest < ActionDispatch::IntegrationTest
     otro_user = users(:two)
     otro_agente = otro_user.agentes.create!(name: "Agente Otro Usuario")
     sign_in_as(@user)
-    
+
     get agentes_url
     assert_response :success
     assert_includes @response.body, @agente.name

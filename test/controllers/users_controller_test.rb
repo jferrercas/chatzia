@@ -137,22 +137,22 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "debe normalizar email_address en create" do
-    post users_url, params: { user: { 
+    post users_url, params: { user: {
       email_address: "  TEST@EXAMPLE.COM  ",
       password: "password123",
       password_confirmation: "password123"
-    }}
+    } }
     assert_redirected_to user_url(User.last)
     assert_equal "test@example.com", User.last.email_address
   end
 
   test "debe validar formato de email" do
     assert_no_difference("User.count") do
-      post users_url, params: { user: { 
+      post users_url, params: { user: {
         email_address: "invalid-email",
         password: "password123",
         password_confirmation: "password123"
-      }}
+      } }
     end
     assert_response :unprocessable_entity
   end
@@ -160,7 +160,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   test "debe validar unicidad de email" do
     # Crear primer usuario
     post users_url, params: { user: @user_params }
-    
+
     # Intentar crear segundo usuario con mismo email
     assert_no_difference("User.count") do
       post users_url, params: { user: @user_params }

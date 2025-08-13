@@ -83,7 +83,7 @@ class MensajesTest < ApplicationSystemTestCase
     click_on "Nuevo Mensaje"
 
     select @conversacion.id.to_s, from: "Conversación"
-    
+
     # Contenido muy largo
     contenido_largo = "a" * 5001
     fill_in "Contenido", with: contenido_largo
@@ -111,19 +111,19 @@ class MensajesTest < ApplicationSystemTestCase
   test "navegación entre páginas" do
     sign_in_as(@user)
     visit mensajes_url
-    
+
     # Ir a nuevo mensaje
     click_on "Nuevo Mensaje"
     assert_text "Nuevo Mensaje"
-    
+
     # Volver al índice
     click_on "Volver"
     assert_text "Mensajes"
-    
+
     # Ir a mostrar mensaje
     click_on "Mostrar", match: :first
     assert_text @mensaje.contenido
-    
+
     # Volver al índice
     click_on "Volver"
     assert_text "Mensajes"
@@ -131,20 +131,20 @@ class MensajesTest < ApplicationSystemTestCase
 
   test "filtrado por conversación" do
     sign_in_as(@user)
-    
+
     # Crear otra conversación
     otra_conversacion = @agente.conversaciones.create!
-    
+
     # Crear mensajes para diferentes conversaciones
     @conversacion.mensajes.create!(contenido: "Mensaje Conversación 1")
     otra_conversacion.mensajes.create!(contenido: "Mensaje Conversación 2")
-    
+
     visit mensajes_url
-    
+
     # Filtrar por conversación
     select @conversacion.id.to_s, from: "Filtrar por conversación"
     click_on "Filtrar"
-    
+
     assert_text "Mensaje Conversación 1"
     assert_no_text "Mensaje Conversación 2"
   end
@@ -160,7 +160,7 @@ class MensajesTest < ApplicationSystemTestCase
     otra_conversacion = otro_agente.conversaciones.create!
     otro_mensaje = otra_conversacion.mensajes.create!(contenido: "Mensaje de otro usuario")
     sign_in_as(@user)
-    
+
     visit mensaje_url(otro_mensaje)
     assert_text "No tienes permisos para acceder a este mensaje"
   end
@@ -168,12 +168,12 @@ class MensajesTest < ApplicationSystemTestCase
   test "contenido corto truncado" do
     sign_in_as(@user)
     visit mensajes_url
-    
+
     # Crear mensaje largo
     mensaje_largo = @conversacion.mensajes.create!(contenido: "Este es un mensaje muy largo que excede los 100 caracteres y por lo tanto debe ser truncado para mostrar solo una vista previa del contenido completo")
-    
+
     visit mensajes_url
-    
+
     # Verificar que se muestra contenido truncado en el índice
     assert_text "#{mensaje_largo.contenido[0..97]}..."
     assert_no_text mensaje_largo.contenido
@@ -181,13 +181,13 @@ class MensajesTest < ApplicationSystemTestCase
 
   test "ordenamiento por fecha" do
     sign_in_as(@user)
-    
+
     # Crear mensajes con fechas específicas
     mensaje_antiguo = @conversacion.mensajes.create!(contenido: "Mensaje antiguo", created_at: 2.days.ago)
     mensaje_reciente = @conversacion.mensajes.create!(contenido: "Mensaje reciente", created_at: 1.day.ago)
-    
+
     visit mensajes_url
-    
+
     # Verificar orden por defecto (más recientes primero)
     assert_text mensaje_reciente.contenido
     assert_text mensaje_antiguo.contenido
@@ -195,18 +195,18 @@ class MensajesTest < ApplicationSystemTestCase
 
   test "búsqueda por contenido" do
     sign_in_as(@user)
-    
+
     # Crear mensajes con contenido específico
     @conversacion.mensajes.create!(contenido: "Mensaje sobre soporte técnico")
     @conversacion.mensajes.create!(contenido: "Mensaje sobre ventas")
     @conversacion.mensajes.create!(contenido: "Mensaje sobre marketing")
-    
+
     visit mensajes_url
-    
+
     # Buscar por palabra clave
     fill_in "Buscar", with: "soporte"
     click_on "Buscar"
-    
+
     assert_text "Mensaje sobre soporte técnico"
     assert_no_text "Mensaje sobre ventas"
     assert_no_text "Mensaje sobre marketing"
@@ -256,14 +256,14 @@ class MensajesTest < ApplicationSystemTestCase
 
   test "estadísticas de mensajes" do
     sign_in_as(@user)
-    
+
     # Crear mensajes con diferentes longitudes
     @conversacion.mensajes.create!(contenido: "Mensaje corto")
     @conversacion.mensajes.create!(contenido: "Este es un mensaje de longitud media")
     @conversacion.mensajes.create!(contenido: "Este es un mensaje muy largo que contiene mucha información detallada sobre el tema principal de la conversación")
-    
+
     visit mensajes_url
-    
+
     # Verificar estadísticas
     assert_text "Total: 4"
     assert_text "Longitud promedio: 45 caracteres"
@@ -274,11 +274,11 @@ class MensajesTest < ApplicationSystemTestCase
   test "exportación de mensajes" do
     sign_in_as(@user)
     visit mensajes_url
-    
+
     # Exportar a CSV
     click_on "Exportar CSV"
     assert_text "Descargando archivo CSV"
-    
+
     # Exportar a JSON
     click_on "Exportar JSON"
     assert_text "Descargando archivo JSON"
@@ -286,17 +286,17 @@ class MensajesTest < ApplicationSystemTestCase
 
   test "paginación de mensajes" do
     sign_in_as(@user)
-    
+
     # Crear múltiples mensajes para probar paginación
     15.times do |i|
       @conversacion.mensajes.create!(contenido: "Mensaje #{i + 1}")
     end
-    
+
     visit mensajes_url
-    
+
     # Verificar que hay paginación
     assert_selector ".pagination"
-    
+
     # Ir a la siguiente página
     click_on "Siguiente"
     assert_text "Mensaje 11"
@@ -304,19 +304,19 @@ class MensajesTest < ApplicationSystemTestCase
 
   test "filtrado por rango de fechas" do
     sign_in_as(@user)
-    
+
     # Crear mensajes con fechas específicas
     mensaje_hoy = @conversacion.mensajes.create!(created_at: Date.current)
     mensaje_semana_pasada = @conversacion.mensajes.create!(created_at: 1.week.ago)
     mensaje_mes_pasado = @conversacion.mensajes.create!(created_at: 1.month.ago)
-    
+
     visit mensajes_url
-    
+
     # Filtrar por fecha de hoy
     fill_in "Fecha desde", with: Date.current.to_s
     fill_in "Fecha hasta", with: Date.current.to_s
     click_on "Filtrar"
-    
+
     assert_text mensaje_hoy.contenido
     assert_no_text mensaje_semana_pasada.contenido
     assert_no_text mensaje_mes_pasado.contenido
@@ -324,18 +324,18 @@ class MensajesTest < ApplicationSystemTestCase
 
   test "filtrado por longitud de contenido" do
     sign_in_as(@user)
-    
+
     # Crear mensajes con diferentes longitudes
     @conversacion.mensajes.create!(contenido: "Corto")
     @conversacion.mensajes.create!(contenido: "Este es un mensaje de longitud media")
     @conversacion.mensajes.create!(contenido: "Este es un mensaje muy largo que contiene mucha información detallada sobre el tema principal de la conversación")
-    
+
     visit mensajes_url
-    
+
     # Filtrar mensajes largos (más de 50 caracteres)
     fill_in "Longitud mínima", with: "50"
     click_on "Filtrar"
-    
+
     assert_text "Este es un mensaje de longitud media"
     assert_text "Este es un mensaje muy largo"
     assert_no_text "Corto"
@@ -343,14 +343,14 @@ class MensajesTest < ApplicationSystemTestCase
 
   test "vista de conversación con mensajes" do
     sign_in_as(@user)
-    
+
     # Crear varios mensajes en la conversación
     @conversacion.mensajes.create!(contenido: "Primer mensaje")
     @conversacion.mensajes.create!(contenido: "Segundo mensaje")
     @conversacion.mensajes.create!(contenido: "Tercer mensaje")
-    
+
     visit conversacion_url(@conversacion)
-    
+
     # Verificar que se muestran todos los mensajes
     assert_text "Primer mensaje"
     assert_text "Segundo mensaje"
@@ -360,11 +360,11 @@ class MensajesTest < ApplicationSystemTestCase
   test "creación de mensaje desde vista de conversación" do
     sign_in_as(@user)
     visit conversacion_url(@conversacion)
-    
+
     # Crear mensaje desde la vista de conversación
     fill_in "Contenido", with: "Nuevo mensaje desde conversación"
     click_on "Enviar Mensaje"
-    
+
     assert_text "Mensaje creado exitosamente"
     assert_text "Nuevo mensaje desde conversación"
   end
@@ -372,22 +372,22 @@ class MensajesTest < ApplicationSystemTestCase
   test "respuesta en tiempo real" do
     sign_in_as(@user)
     visit conversacion_url(@conversacion)
-    
+
     # Simular mensaje entrante
     mensaje_entrante = @conversacion.mensajes.create!(contenido: "Mensaje entrante")
-    
+
     # Verificar que se actualiza automáticamente
     assert_text "Mensaje entrante"
   end
 
   test "indicador de mensajes no leídos" do
     sign_in_as(@user)
-    
+
     # Crear mensaje no leído
     @conversacion.mensajes.create!(contenido: "Mensaje no leído")
-    
+
     visit mensajes_url
-    
+
     # Verificar indicador
     assert_selector ".unread-indicator"
     assert_text "1 mensaje no leído"
@@ -395,12 +395,12 @@ class MensajesTest < ApplicationSystemTestCase
 
   test "marcar mensaje como leído" do
     sign_in_as(@user)
-    
+
     # Crear mensaje no leído
     mensaje_no_leido = @conversacion.mensajes.create!(contenido: "Mensaje no leído")
-    
+
     visit mensaje_url(mensaje_no_leido)
-    
+
     # Verificar que se marca como leído
     assert_selector ".read-indicator"
     assert_text "Leído"

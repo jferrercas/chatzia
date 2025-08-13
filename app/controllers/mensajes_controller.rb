@@ -23,9 +23,9 @@ class MensajesController < ApplicationController
   # POST /mensajes or /mensajes.json
   def create
     @mensaje = Mensaje.new(mensaje_params)
-    
+
     # Verificar que la conversación pertenece a un agente del usuario actual
-    unless Current.user.agentes.joins(:conversaciones).exists?(conversaciones: { id: @mensaje.conversacion_id })
+    unless Current.user.agentes.joins(:conversacions).exists?(conversacions: { id: @mensaje.conversacion_id })
       redirect_to mensajes_path, alert: "No puedes crear mensajes en conversaciones que no te pertenecen."
       return
     end
@@ -45,7 +45,7 @@ class MensajesController < ApplicationController
   def update
     respond_to do |format|
       if @mensaje.update(mensaje_params)
-        format.html { redirect_to @mensaje, notice: "Mensaje was successfully updated.", status: :see_other }
+        format.html { redirect_to @mensaje, notice: "Mensaje actualizado exitosamente.", status: :see_other }
         format.json { render :show, status: :ok, location: @mensaje }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -59,7 +59,7 @@ class MensajesController < ApplicationController
     @mensaje.destroy!
 
     respond_to do |format|
-      format.html { redirect_to mensajes_path, notice: "Mensaje was successfully destroyed.", status: :see_other }
+      format.html { redirect_to mensajes_path, notice: "Mensaje eliminado exitosamente.", status: :see_other }
       format.json { head :no_content }
     end
   end
@@ -67,14 +67,14 @@ class MensajesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_mensaje
-      @mensaje = Mensaje.find(params.expect(:id))
+      @mensaje = Mensaje.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
     def mensaje_params
-      params.expect(mensaje: [ :contenido, :conversacion_id ])
+      params.require(:mensaje).permit(:contenido, :conversacion_id)
     end
-    
+
     def authorize_mensaje
       unless @mensaje.conversacion.agente.user_id == Current.user.id
         redirect_to mensajes_path, alert: "No tienes permisos para acceder a este mensaje."

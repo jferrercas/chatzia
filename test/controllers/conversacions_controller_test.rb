@@ -55,7 +55,7 @@ class ConversacionsControllerTest < ActionDispatch::IntegrationTest
     otro_user = users(:two)
     otro_agente = otro_user.agentes.create!(name: "Agente Otro Usuario")
     sign_in_as(@user)
-    
+
     assert_no_difference("Conversacion.count") do
       post conversacions_url, params: { conversacion: { agente_id: otro_agente.id, duracion: 30 } }
     end
@@ -137,7 +137,7 @@ class ConversacionsControllerTest < ActionDispatch::IntegrationTest
     otro_agente = otro_user.agentes.create!(name: "Agente Otro Usuario")
     otra_conversacion = otro_agente.conversaciones.create!
     sign_in_as(@user)
-    
+
     get conversacion_url(otra_conversacion)
     assert_redirected_to conversacions_path
     assert_equal "No tienes permisos para acceder a esta conversación.", flash[:alert]
@@ -148,7 +148,7 @@ class ConversacionsControllerTest < ActionDispatch::IntegrationTest
     otro_agente = otro_user.agentes.create!(name: "Agente Otro Usuario")
     otra_conversacion = otro_agente.conversaciones.create!
     sign_in_as(@user)
-    
+
     get edit_conversacion_url(otra_conversacion)
     assert_redirected_to conversacions_path
     assert_equal "No tienes permisos para acceder a esta conversación.", flash[:alert]
@@ -159,7 +159,7 @@ class ConversacionsControllerTest < ActionDispatch::IntegrationTest
     otro_agente = otro_user.agentes.create!(name: "Agente Otro Usuario")
     otra_conversacion = otro_agente.conversaciones.create!
     sign_in_as(@user)
-    
+
     patch conversacion_url(otra_conversacion), params: { conversacion: { resumen: "Resumen actualizado" } }
     assert_redirected_to conversacions_path
     assert_equal "No tienes permisos para acceder a esta conversación.", flash[:alert]
@@ -170,7 +170,7 @@ class ConversacionsControllerTest < ActionDispatch::IntegrationTest
     otro_agente = otro_user.agentes.create!(name: "Agente Otro Usuario")
     otra_conversacion = otro_agente.conversaciones.create!
     sign_in_as(@user)
-    
+
     assert_no_difference("Conversacion.count") do
       delete conversacion_url(otra_conversacion)
     end
@@ -259,7 +259,7 @@ class ConversacionsControllerTest < ActionDispatch::IntegrationTest
     otro_agente = otro_user.agentes.create!(name: "Agente Otro Usuario")
     otra_conversacion = otro_agente.conversaciones.create!
     sign_in_as(@user)
-    
+
     get conversacions_url
     assert_response :success
     assert_includes @response.body, @conversacion.id.to_s

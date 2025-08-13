@@ -1,15 +1,15 @@
 class UsersController < ApplicationController
   before_action :set_user, only: %i[ show edit update ]
   before_action :authorize_user, only: %i[ show edit update ]
-  
+
   def index
     @users = User.all
   end
-  
+
   def show
   end
 
-    # GET /agentes/new
+  # GET /agentes/new
   def new
     @user = User.new
   end
@@ -30,7 +30,7 @@ class UsersController < ApplicationController
 
   def edit
   end
-  
+
   def update
     respond_to do |format|
       if @user.update(user_params)
@@ -42,21 +42,21 @@ class UsersController < ApplicationController
       end
     end
   end
-  
+
   private
-  
+
   def set_user
     @user = User.find(params.expect(:id))
   end
-  
+
   def authorize_user
     unless @user.id == Current.user.id
       redirect_to users_path, alert: "No puedes modificar otros usuarios."
     end
   end
-  
+
   def user_params
-    if action_name == 'create'
+    if action_name == "create"
       params.expect(user: [ :email_address, :password, :password_confirmation ])
     else
       params.expect(user: [ :email_address ])

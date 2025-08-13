@@ -70,19 +70,19 @@ class AgentesTest < ApplicationSystemTestCase
   test "navegación entre páginas" do
     sign_in_as(@user)
     visit agentes_url
-    
+
     # Ir a nuevo agente
     click_on "Nuevo Agente"
     assert_text "Nuevo Agente"
-    
+
     # Volver al índice
     click_on "Volver"
     assert_text "Agentes"
-    
+
     # Ir a mostrar agente
     click_on "Mostrar", match: :first
     assert_text @agente.name
-    
+
     # Volver al índice
     click_on "Volver"
     assert_text "Agentes"
@@ -90,14 +90,14 @@ class AgentesTest < ApplicationSystemTestCase
 
   test "filtrado por status" do
     sign_in_as(@user)
-    
+
     # Crear agentes con diferentes status
     @user.agentes.create!(name: "Agente Activo", status: 1)
     @user.agentes.create!(name: "Agente Inactivo", status: 0)
     @user.agentes.create!(name: "Agente Ocupado", status: 2)
-    
+
     visit agentes_url
-    
+
     # Verificar que todos los agentes se muestran
     assert_text "Agente Activo"
     assert_text "Agente Inactivo"
@@ -113,7 +113,7 @@ class AgentesTest < ApplicationSystemTestCase
     otro_user = users(:two)
     otro_agente = otro_user.agentes.create!(name: "Agente Otro Usuario")
     sign_in_as(@user)
-    
+
     visit agente_url(otro_agente)
     assert_text "No tienes permisos para acceder a este agente"
   end
@@ -146,13 +146,13 @@ class AgentesTest < ApplicationSystemTestCase
   test "confirmación de eliminación" do
     sign_in_as(@user)
     visit agentes_url
-    
+
     # Intentar eliminar sin confirmar
     click_on "Eliminar", match: :first
-    
+
     # Debe mostrar diálogo de confirmación
     assert_text "¿Estás seguro?"
-    
+
     # Cancelar eliminación
     click_on "Cancelar"
     assert_text @agente.name
@@ -160,18 +160,18 @@ class AgentesTest < ApplicationSystemTestCase
 
   test "búsqueda y filtrado" do
     sign_in_as(@user)
-    
+
     # Crear agentes con nombres específicos
     @user.agentes.create!(name: "Agente de Soporte")
     @user.agentes.create!(name: "Agente de Ventas")
     @user.agentes.create!(name: "Agente de Marketing")
-    
+
     visit agentes_url
-    
+
     # Buscar por nombre
     fill_in "Buscar", with: "Soporte"
     click_on "Buscar"
-    
+
     assert_text "Agente de Soporte"
     assert_no_text "Agente de Ventas"
     assert_no_text "Agente de Marketing"
@@ -179,17 +179,17 @@ class AgentesTest < ApplicationSystemTestCase
 
   test "paginación" do
     sign_in_as(@user)
-    
+
     # Crear múltiples agentes para probar paginación
     15.times do |i|
       @user.agentes.create!(name: "Agente #{i + 1}")
     end
-    
+
     visit agentes_url
-    
+
     # Verificar que hay paginación
     assert_selector ".pagination"
-    
+
     # Ir a la siguiente página
     click_on "Siguiente"
     assert_text "Agente 11"
@@ -197,20 +197,20 @@ class AgentesTest < ApplicationSystemTestCase
 
   test "ordenamiento de agentes" do
     sign_in_as(@user)
-    
+
     # Crear agentes con nombres específicos para ordenamiento
     @user.agentes.create!(name: "Agente Zeta")
     @user.agentes.create!(name: "Agente Alfa")
     @user.agentes.create!(name: "Agente Beta")
-    
+
     visit agentes_url
-    
+
     # Ordenar por nombre ascendente
     click_on "Nombre"
     assert_text "Agente Alfa"
     assert_text "Agente Beta"
     assert_text "Agente Zeta"
-    
+
     # Ordenar por nombre descendente
     click_on "Nombre"
     assert_text "Agente Zeta"
@@ -221,11 +221,11 @@ class AgentesTest < ApplicationSystemTestCase
   test "exportación de datos" do
     sign_in_as(@user)
     visit agentes_url
-    
+
     # Exportar a CSV
     click_on "Exportar CSV"
     assert_text "Descargando archivo CSV"
-    
+
     # Exportar a JSON
     click_on "Exportar JSON"
     assert_text "Descargando archivo JSON"
@@ -233,14 +233,14 @@ class AgentesTest < ApplicationSystemTestCase
 
   test "estadísticas de agentes" do
     sign_in_as(@user)
-    
+
     # Crear agentes con diferentes status
     @user.agentes.create!(name: "Agente 1", status: 1)
     @user.agentes.create!(name: "Agente 2", status: 0)
     @user.agentes.create!(name: "Agente 3", status: 2)
-    
+
     visit agentes_url
-    
+
     # Verificar estadísticas
     assert_text "Total: 4"
     assert_text "Activos: 2"

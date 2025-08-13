@@ -25,7 +25,7 @@ class MensajeTest < ActiveSupport::TestCase
   test "contenido debe tener longitud mínima de 1" do
     @mensaje.contenido = "a"
     assert @mensaje.valid?
-    
+
     @mensaje.contenido = ""
     assert_not @mensaje.valid?
   end
@@ -33,7 +33,7 @@ class MensajeTest < ActiveSupport::TestCase
   test "contenido debe tener longitud máxima de 5000 caracteres" do
     @mensaje.contenido = "a" * 5000
     assert @mensaje.valid?
-    
+
     @mensaje.contenido = "a" * 5001
     assert_not @mensaje.valid?
     assert_includes @mensaje.errors[:contenido], "es demasiado largo (máximo 5000 caracteres)"
@@ -47,7 +47,7 @@ class MensajeTest < ActiveSupport::TestCase
   test "scope recientes debe ordenar por created_at descendente" do
     mensaje_antiguo = @conversacion.mensajes.create!(contenido: "Mensaje antiguo", created_at: 2.days.ago)
     mensaje_reciente = @conversacion.mensajes.create!(contenido: "Mensaje reciente", created_at: 1.day.ago)
-    
+
     mensajes_recientes = Mensaje.recientes
     assert_equal mensaje_reciente, mensajes_recientes.first
     assert_equal mensaje_antiguo, mensajes_recientes.last
@@ -56,7 +56,7 @@ class MensajeTest < ActiveSupport::TestCase
   test "scope por_conversacion debe devolver mensajes de la conversación específica" do
     otra_conversacion = conversacions(:two)
     mensaje_otra_conversacion = otra_conversacion.mensajes.create!(contenido: "Mensaje de otra conversación")
-    
+
     mensajes_de_conversacion = Mensaje.por_conversacion(@conversacion.id)
     assert_includes mensajes_de_conversacion, @mensaje
     assert_not_includes mensajes_de_conversacion, mensaje_otra_conversacion

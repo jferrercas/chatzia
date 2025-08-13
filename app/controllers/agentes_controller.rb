@@ -39,7 +39,7 @@ class AgentesController < ApplicationController
   def update
     respond_to do |format|
       if @agente.update(agente_params)
-        format.html { redirect_to @agente, notice: "Agente was successfully updated.", status: :see_other }
+        format.html { redirect_to @agente, notice: "Agente actualizado exitosamente.", status: :see_other }
         format.json { render :show, status: :ok, location: @agente }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -53,7 +53,7 @@ class AgentesController < ApplicationController
     @agente.destroy!
 
     respond_to do |format|
-      format.html { redirect_to agentes_path, notice: "Agente was successfully destroyed.", status: :see_other }
+      format.html { redirect_to agentes_path, notice: "Agente eliminado exitosamente.", status: :see_other }
       format.json { head :no_content }
     end
   end
@@ -61,14 +61,14 @@ class AgentesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_agente
-      @agente = Agente.find(params.expect(:id))
+      @agente = Agente.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
     def agente_params
-      params.expect(agente: [ :name, :channels, :status ])
+      params.require(:agente).permit(:name, :channels, :status)
     end
-    
+
     def authorize_agente
       unless @agente.user_id == Current.user.id
         redirect_to agentes_path, alert: "No tienes permisos para acceder a este agente."
