@@ -1,0 +1,40 @@
+<%= form_with(model: user, local: true, class: "space-y-4") do |form| %>
+  <% if user.errors.any? %>
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+      <h3 class="font-bold">Se encontraron los siguientes errores:</h3>
+      <ul class="list-disc list-inside">
+        <% user.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :email_address, "Email", class: "block text-gray-700 text-sm font-bold mb-2" %>
+    <%= form.email_field :email_address, 
+        class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline",
+        placeholder: "usuario@ejemplo.com" %>
+  </div>
+
+  <% if user.new_record? %>
+    <div>
+      <%= form.label :password, "Contraseña", class: "block text-gray-700 text-sm font-bold mb-2" %>
+      <%= form.password_field :password, 
+          class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline",
+          placeholder: "Mínimo 6 caracteres" %>
+    </div>
+
+    <div>
+      <%= form.label :password_confirmation, "Confirmar Contraseña", class: "block text-gray-700 text-sm font-bold mb-2" %>
+      <%= form.password_field :password_confirmation, 
+          class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline",
+          placeholder: "Repite la contraseña" %>
+    </div>
+  <% end %>
+
+  <div class="flex items-center justify-between pt-4">
+    <%= form.submit user.new_record? ? "Crear Usuario" : "Actualizar Perfil", 
+        class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full" %>
+  </div>
+<% end %>

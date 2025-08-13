@@ -1,0 +1,20 @@
+<div class="container mx-auto px-4 py-8">
+  <div class="max-w-md mx-auto">
+    <div class="mb-6">
+      <%= link_to "← Volver a Usuarios", users_path, class: "text-blue-600 hover:text-blue-800" %>
+    </div>
+
+    <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+      <h2 class="text-2xl font-bold mb-6 text-center text-gray-900">
+        Crear Nuevo Usuario
+      </h2>
+
+      <%= render 'form', user: @user %>
+    </div>
+
+    <div class="text-center text-sm text-gray-600">
+      ¿Ya tienes una cuenta? 
+      <%= link_to "Iniciar Sesión", new_session_path, class: "text-blue-600 hover:text-blue-800" %>
+    </div>
+  </div>
+</div>
