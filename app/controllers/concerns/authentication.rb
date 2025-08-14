@@ -10,6 +10,21 @@ module Authentication
     def allow_unauthenticated_access(**options)
       skip_before_action :require_authentication, **options
     end
+
+    def rate_limit(to:, within:, only: nil, with:)
+      before_action :check_rate_limit, only: only
+      define_method :check_rate_limit do
+        key = "rate_limit:#{request.remote_ip}:#{action_name}"
+        count = Rails.cache.read(key) || 0
+        
+        if count >= to
+          instance_eval(&with)
+          return
+        end
+        
+        Rails.cache.write(key, count + 1, expires_in: within)
+      end
+    end
   end
 
   private

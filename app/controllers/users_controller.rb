@@ -3,7 +3,9 @@ class UsersController < ApplicationController
   before_action :authorize_user, only: %i[ show edit update ]
 
   def index
-    @users = User.all
+    # Solo permitir acceso a administradores o usuarios autenticados
+    @users = User.all if Current.user&.admin?
+    redirect_to root_path, alert: "Acceso denegado" unless Current.user&.admin?
   end
 
   def show
@@ -46,7 +48,7 @@ class UsersController < ApplicationController
   private
 
   def set_user
-    @user = User.find(params.expect(:id))
+    @user = User.find(params[:id])
   end
 
   def authorize_user
@@ -57,9 +59,9 @@ class UsersController < ApplicationController
 
   def user_params
     if action_name == "create"
-      params.expect(user: [ :email_address, :password, :password_confirmation ])
+      params.require(:user).permit(:email_address, :password, :password_confirmation)
     else
-      params.expect(user: [ :email_address ])
+      params.require(:user).permit(:email_address)
     end
   end
 end

@@ -3,7 +3,6 @@ class Mensaje < ApplicationRecord
   validates :contenido, presence: true, 
             length: { minimum: AppConstants::LIMITES[:mensaje_contenido_min], 
                      maximum: AppConstants::LIMITES[:mensaje_contenido_max] }
-  validates :contenido, format: { without: /\A\s*\z/, message: "no puede estar vacío" }
 
   scope :recientes, -> { order(created_at: :desc) }
   scope :por_conversacion, ->(conversacion_id) { where(conversacion_id: conversacion_id) }

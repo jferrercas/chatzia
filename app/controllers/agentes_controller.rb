@@ -50,11 +50,14 @@ class AgentesController < ApplicationController
 
   # DELETE /agentes/1 or /agentes/1.json
   def destroy
-    @agente.destroy!
-
     respond_to do |format|
-      format.html { redirect_to agentes_path, notice: "Agente eliminado exitosamente.", status: :see_other }
-      format.json { head :no_content }
+      if @agente.destroy
+        format.html { redirect_to agentes_path, notice: "Agente eliminado exitosamente.", status: :see_other }
+        format.json { head :no_content }
+      else
+        format.html { redirect_to agentes_path, alert: "No se pudo eliminar el agente." }
+        format.json { render json: { error: "No se pudo eliminar el agente" }, status: :unprocessable_entity }
+      end
     end
   end
 

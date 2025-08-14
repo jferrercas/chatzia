@@ -39,7 +39,7 @@ class ApplicationController < ActionController::Base
   def unprocessable_entity(exception)
     Rails.logger.error "422 Unprocessable Entity: #{exception.message}"
     respond_to do |format|
-      format.html { redirect_to :back, alert: exception.message }
+      format.html { redirect_back(fallback_location: root_path, alert: exception.message) }
       format.json { render json: { error: exception.message }, status: :unprocessable_entity }
     end
   end

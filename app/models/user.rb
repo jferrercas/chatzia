@@ -17,6 +17,12 @@ class User < ApplicationRecord
   def email_dominio
     email_address.split("@").last
   end
+
+  def admin?
+    # Por ahora, considerar como admin al primer usuario registrado
+    # En producción, deberías tener un campo admin en la base de datos
+    id == 1
+  end
   
   private
   

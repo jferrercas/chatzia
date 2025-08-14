@@ -4,7 +4,9 @@ class MensajesController < ApplicationController
 
   # GET /mensajes or /mensajes.json
   def index
-    @mensajes = Mensaje.joins(conversacion: :agente).where(agentes: { user_id: Current.user.id })
+    @mensajes = Mensaje.includes(conversacion: :agente)
+                      .joins(conversacion: :agente)
+                      .where(agentes: { user_id: Current.user.id })
   end
 
   # GET /mensajes/1 or /mensajes/1.json
@@ -56,11 +58,14 @@ class MensajesController < ApplicationController
 
   # DELETE /mensajes/1 or /mensajes/1.json
   def destroy
-    @mensaje.destroy!
-
     respond_to do |format|
-      format.html { redirect_to mensajes_path, notice: "Mensaje eliminado exitosamente.", status: :see_other }
-      format.json { head :no_content }
+      if @mensaje.destroy
+        format.html { redirect_to mensajes_path, notice: "Mensaje eliminado exitosamente.", status: :see_other }
+        format.json { head :no_content }
+      else
+        format.html { redirect_to mensajes_path, alert: "No se pudo eliminar el mensaje." }
+        format.json { render json: { error: "No se pudo eliminar el mensaje" }, status: :unprocessable_entity }
+      end
     end
   end
 
