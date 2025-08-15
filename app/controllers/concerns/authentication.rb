@@ -16,12 +16,12 @@ module Authentication
       define_method :check_rate_limit do
         key = "rate_limit:#{request.remote_ip}:#{action_name}"
         count = Rails.cache.read(key) || 0
-        
+
         if count >= to
           instance_eval(&with)
           return
         end
-        
+
         Rails.cache.write(key, count + 1, expires_in: within)
       end
     end

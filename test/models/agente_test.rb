@@ -40,26 +40,26 @@ class AgenteTest < ActiveSupport::TestCase
   test "activos scope should return active agents" do
     @agente.status = AppConstants::AGENTE_ESTADOS[:activo]
     @agente.save!
-    
+
     assert_includes Agente.activos, @agente
   end
 
   test "por_usuario scope should return user agents" do
     @agente.save!
-    
+
     assert_includes Agente.por_usuario(@user.id), @agente
   end
 
   test "estado_nombre should return correct status name" do
     @agente.status = AppConstants::AGENTE_ESTADOS[:activo]
     assert_equal "Activo", @agente.estado_nombre
-    
+
     @agente.status = AppConstants::AGENTE_ESTADOS[:inactivo]
     assert_equal "Inactivo", @agente.estado_nombre
-    
+
     @agente.status = AppConstants::AGENTE_ESTADOS[:ocupado]
     assert_equal "Ocupado", @agente.estado_nombre
-    
+
     @agente.status = nil
     assert_equal "Desconocido", @agente.estado_nombre
   end

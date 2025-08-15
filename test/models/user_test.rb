@@ -25,7 +25,7 @@ class UserTest < ActiveSupport::TestCase
     invalid_emails = [ "invalid", "test@", "@test.com", "test@test" ]
     invalid_emails.each do |email|
       @user.email_address = email
-      #assert_not @user.valid?, "#{email} debería ser inválido"
+      # assert_not @user.valid?, "#{email} debería ser inválido"
     end
   end
 

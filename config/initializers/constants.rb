@@ -7,7 +7,7 @@ module AppConstants
     activo: 1,
     ocupado: 2
   }.freeze
-  
+
   # Límites de validación
   LIMITES = {
     mensaje_contenido_max: 5000,
@@ -16,13 +16,13 @@ module AppConstants
     password_min: 6,
     nombre_agente_max: 100
   }.freeze
-  
+
   # Configuración de sesiones
   SESION_CONFIG = {
     dias_expiracion: 30,
     max_sesiones_por_usuario: 5
   }.freeze
-  
+
   # Mensajes de error comunes
   MENSAJES_ERROR = {
     acceso_denegado: "No tienes permisos para acceder a este recurso.",

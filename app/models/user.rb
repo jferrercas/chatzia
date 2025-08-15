@@ -13,7 +13,7 @@ class User < ApplicationRecord
   def nombre_mostrar
     email_address.split("@").first.capitalize
   end
-  
+
   def email_dominio
     email_address.split("@").last
   end
@@ -23,9 +23,9 @@ class User < ApplicationRecord
     # En producción, deberías tener un campo admin en la base de datos
     id == 1
   end
-  
+
   private
-  
+
   def password_required?
     new_record? || password.present?
   end
