@@ -2,7 +2,7 @@
 
 Una aplicación de chat inteligente construida con Ruby on Rails 8.0.
 
-## Características
+## Característicass
 
 - **Sistema de Autenticación Seguro**: Usando bcrypt y sesiones seguras
 - **Gestión de Agentes**: Crear y gestionar agentes de chat con diferentes estados
